@@ -56,8 +56,8 @@ class NetworkingAPI {
             }
             
             if let data = data {
-                let str = String(decoding: data, as: UTF8.self)
-                print(str)
+//                let str = String(decoding: data, as: UTF8.self)
+//                print(str)
                 complition(data)
             }
             

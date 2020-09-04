@@ -32,19 +32,14 @@
                     </label>
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DbA-cH-MfE">
                         <rect key="frame" x="64" y="44" width="20" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="20" id="SaE-Z9-rEN"/>
-                            <constraint firstAttribute="height" constant="20" id="YcF-7O-Beh"/>
-                        </constraints>
                     </activityIndicatorView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="eWo-lj-pVe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="7Bz-K8-0OM"/>
-                    <constraint firstItem="DbA-cH-MfE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="44" id="GXo-2O-nHD"/>
-                    <constraint firstAttribute="bottom" secondItem="DbA-cH-MfE" secondAttribute="bottom" constant="44" id="Kj4-IG-7gt"/>
                     <constraint firstItem="eWo-lj-pVe" firstAttribute="leading" secondItem="tsC-jE-TS9" secondAttribute="trailing" constant="20" id="Nxx-9H-96w"/>
                     <constraint firstAttribute="trailing" secondItem="eWo-lj-pVe" secondAttribute="trailing" constant="20" id="RoA-bo-Zsq"/>
                     <constraint firstItem="tsC-jE-TS9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="SP4-KA-NTw"/>
+                    <constraint firstItem="DbA-cH-MfE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bwW-C4-I9h"/>
                     <constraint firstAttribute="bottom" secondItem="tsC-jE-TS9" secondAttribute="bottom" constant="4" id="fdj-sJ-QYf"/>
                     <constraint firstItem="tsC-jE-TS9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="m7x-J3-xAZ"/>
                     <constraint firstAttribute="bottom" secondItem="eWo-lj-pVe" secondAttribute="bottom" constant="4" id="qxe-Yo-O4V"/>

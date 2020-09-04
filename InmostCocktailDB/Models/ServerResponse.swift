@@ -12,10 +12,6 @@ struct ServerResponse<T: Codable>: Codable {
     var drinks: [T]
 }
 
-//struct ArrayDataResponse<T: Decodable>: Decodable {
-//    var drinks: [T]
-//}
-
 struct Drink: Codable {
     var strDrink: String
     var strDrinkThumb: String?

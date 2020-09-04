@@ -18,6 +18,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QXz-ND-54e">
+                                <rect key="frame" x="62" y="375" width="290" height="200"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Lvg-K9-qeU">
+                                        <rect key="frame" x="135" y="90" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading drinks..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16e-vK-6lm">
+                                        <rect key="frame" x="0.0" y="118" width="290" height="20.5"/>
+                                        <color key="tintColor" systemColor="separatorColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="tertiaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="16e-vK-6lm" firstAttribute="leading" secondItem="QXz-ND-54e" secondAttribute="leading" id="0AR-TY-Fwk"/>
+                                    <constraint firstAttribute="height" constant="200" id="4JX-Tu-vdh"/>
+                                    <constraint firstItem="16e-vK-6lm" firstAttribute="centerX" secondItem="QXz-ND-54e" secondAttribute="centerX" id="5k1-ay-8os"/>
+                                    <constraint firstAttribute="trailing" secondItem="16e-vK-6lm" secondAttribute="trailing" id="CEm-D3-LlP"/>
+                                    <constraint firstItem="Lvg-K9-qeU" firstAttribute="centerY" secondItem="QXz-ND-54e" secondAttribute="centerY" id="WsF-Pk-8el"/>
+                                    <constraint firstItem="16e-vK-6lm" firstAttribute="top" secondItem="Lvg-K9-qeU" secondAttribute="bottom" constant="8" symbolic="YES" id="Ymc-Nj-Jnq"/>
+                                    <constraint firstItem="Lvg-K9-qeU" firstAttribute="centerX" secondItem="QXz-ND-54e" secondAttribute="centerX" id="m1q-gG-lgf"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Oi7-pv-gf7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -28,8 +53,11 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Oi7-pv-gf7" secondAttribute="bottom" id="ORu-YG-S55"/>
                             <constraint firstItem="Oi7-pv-gf7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ZBj-kv-sjS"/>
+                            <constraint firstItem="QXz-ND-54e" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="fA8-ue-bop"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Oi7-pv-gf7" secondAttribute="trailing" id="nbs-6V-bhM"/>
                             <constraint firstItem="Oi7-pv-gf7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="oL5-lg-ygw"/>
+                            <constraint firstItem="QXz-ND-54e" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="ufA-rw-jcy"/>
+                            <constraint firstItem="QXz-ND-54e" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="xlE-r9-Imv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Drinks" id="INi-3j-tr7">
@@ -50,7 +78,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadingLabel" destination="16e-vK-6lm" id="4LD-MU-4ZJ"/>
+                        <outlet property="mainActivityIndicator" destination="Lvg-K9-qeU" id="vV5-e8-e0k"/>
                         <outlet property="tableView" destination="Oi7-pv-gf7" id="nvA-fz-D73"/>
+                        <outlet property="viewWithActivityIndicator" destination="QXz-ND-54e" id="3AR-zZ-AQJ"/>
                         <segue destination="6vw-8R-6en" kind="show" id="DQU-04-95C"/>
                     </connections>
                 </viewController>
@@ -136,11 +167,17 @@
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

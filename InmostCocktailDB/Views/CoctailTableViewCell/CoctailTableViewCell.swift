@@ -15,31 +15,28 @@ class CoctailTableViewCell: UITableViewCell {
     
     var drinkImageURL: URL? {
         didSet {
-            drinkImageView.image = nil
             updateImage()
         }
+    }
+    
+    override func prepareForReuse() {
+        drinkImageView.image = nil
     }
 
     
     func updateImage() {
-        if let url = drinkImageURL {
-            drinkImageViewActivityIndicator.startAndShow()
-            
-            DispatchQueue.global(qos: .userInitiated).async {
-                let contensOfUrl = try? Data(contentsOf: url)
-                DispatchQueue.main.async { [weak self] in
-                    if url == self?.drinkImageURL {
-                        if let imageData = contensOfUrl {
-                            self?.drinkImageView.image = UIImage(data: imageData)
-                        } else {
-                            self?.drinkImageView.image = UIImage(systemName: "photo")
-                        }
-                        self?.drinkImageViewActivityIndicator.stopAndHide()
-                    }
-                }
+        self.drinkImageViewActivityIndicator.startAnimating()
+        
+        if let cachedImage = imageCache.object(forKey: "\(drinkImageURL?.absoluteString ?? "")" as NSString)  {
+            drinkImageView.image = cachedImage
+            self.drinkImageViewActivityIndicator.stopAndHide()
+        } else {
+            drinkImageView.loadImage(withUrl: "\(drinkImageURL?.absoluteString ?? "")", addImageToCache: true) {
+                self.drinkImageViewActivityIndicator.stopAndHide()
             }
         }
     }
+    
     
     override func layoutSubviews() {
         drinkImageView.layer.cornerRadius = 8

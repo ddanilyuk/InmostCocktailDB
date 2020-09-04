@@ -10,8 +10,9 @@ import UIKit
 class MainViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
-//    var drinks: [Drink] = []
+    @IBOutlet weak var mainActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var viewWithActivityIndicator: UIView!
     
     var tableViewData: [(category: Category, drinks: [Drink])] = []
     
@@ -20,17 +21,29 @@ class MainViewController: UIViewController {
     var categories: [Category] = [] {
         didSet {
             tableViewData = []
-            for category in categories {
-                api.getDataFromServer(requestType: RequestType.drinks, drinkNames: category.strCategory) { [weak self] data in
-                    let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
-                    if let serverResponse = serverResponse {
-                        DispatchQueue.main.async {
-                            self?.tableViewData.append((category: Category(strCategory: category.strCategory), drinks: serverResponse.drinks))
-                            self?.tableViewData.sort(by: { part1, part2 in
-                                return part1.category.strCategory < part2.category.strCategory
-                            })
-                            self?.tableView.reloadData()
-                        }
+            guard categories.count > 0 else {
+                viewWithActivityIndicator.isHidden = false
+                mainActivityIndicator.stopAndHide()
+
+                loadingLabel.text = "You select no categories!\nPlease, select at least one!"
+                tableView.isHidden = true
+                print("LOG: User select no categories!")
+                return
+            }
+            let category = categories[0]
+            api.getDataFromServer(requestType: RequestType.drinks, drinkNames: category.strCategory) { [weak self] data in
+                let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
+                if let serverResponse = serverResponse {
+                    DispatchQueue.main.async {
+                        print("LOG: First section downloaded!!!")
+                        
+                        self?.mainActivityIndicator.stopAndHide()
+                        self?.viewWithActivityIndicator.isHidden = true
+                        self?.tableView.isHidden = false
+
+                        
+                        self?.tableViewData.append((category: Category(strCategory: category.strCategory), drinks: serverResponse.drinks))
+                        self?.tableView.reloadData()
                     }
                 }
             }
@@ -40,20 +53,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupTableView()
         
-        categories = settings.selectedCategories
-//        api.getDataFromServer(requestType: RequestType.drinks ,drinkNames: ["Ordinary Drink"]) { [weak self] data in
-//            let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
-//            if let serverResponse = serverResponse {
-//                DispatchQueue.main.async {
-//                    self?.drinks = serverResponse.drinks
-//                    self?.tableView.reloadData()
-//                }
-//            }
-//        }
+        mainActivityIndicator.startAndShow()
+        viewWithActivityIndicator.isHidden = false
+        tableView.isHidden = true
+
         
+        categories = settings.selectedCategories
+        print("LOG: categories", categories.map( {$0.strCategory} ))
     }
 
     private func setupTableView() {
@@ -61,7 +69,6 @@ class MainViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
     
     @IBAction func didPressShowFilter(_ sender: UIButton) {
@@ -80,6 +87,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return tableViewData[section].category.strCategory
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 108
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return tableViewData.count
@@ -103,9 +115,81 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let isLastCellInSection = indexPath.row + 1 == tableViewData[indexPath.section].drinks.count
+        print("LOG: Will display cell in \(indexPath). It is last cell? \(isLastCellInSection)!!!")
+
+        if indexPath.section + 1 < categories.count, tableViewData.count != 0, isLastCellInSection  {
+            let isAlreadyDownLoaded = tableViewData.contains { (category, _) -> Bool in
+                return category == categories[indexPath.section + 1]
+            }
+            
+            if !isAlreadyDownLoaded {
+                let category = categories[indexPath.section + 1]
+                
+                print("LOG: Downloading new section with category \(category.strCategory)!!!")
+
+                api.getDataFromServer(requestType: RequestType.drinks, drinkNames: category.strCategory) { [weak self] data in
+                    let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
+                    if let serverResponse = serverResponse {
+                        DispatchQueue.main.async {
+                            self?.tableViewData.append((category: Category(strCategory: category.strCategory), drinks: serverResponse.drinks))
+                            print("*****")
+                            print("LOG: \(serverResponse.drinks.count) drinks from category \(category.strCategory) downloaded!!!")
+                            print("*****")
+
+                            self?.tableView.reloadData()
+                        }
+                    }
+                }
+            }
+        } else {
+            print("LOG: There is no other categories!!!")
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let offset = scrollView.contentOffset
+//        let bounds = scrollView.bounds
+//        let size = scrollView.contentSize
+//        let inset = scrollView.contentInset
+//        let y = offset.y + bounds.size.height - inset.bottom
+//        let h = size.height
+//        let reload_distance:CGFloat = 10.0
+//        if y > (h + reload_distance) {
+//            print("updating")
+//            
+//            let isAlreadyDownLoaded = tableViewData.contains { (category, _) -> Bool in
+//                return categories.contains(category)
+//            }
+////            print("isAlreadyDownLoaded", isAlreadyDownLoaded)
+//            
+//            guard categories.count >= tableViewData.count else {
+//                return
+//            }
+//            
+//            let category = categories[tableViewData.count]
+//            if !isAlreadyDownLoaded {
+//                api.getDataFromServer(requestType: RequestType.drinks, drinkNames: category.strCategory) { [weak self] data in
+//                    let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
+//                    if let serverResponse = serverResponse {
+//                        DispatchQueue.main.async {
+//                            self?.tableViewData.append((category: Category(strCategory: category.strCategory), drinks: serverResponse.drinks))
+//                            self?.tableViewData.sort(by: { part1, part2 in
+//                                return part1.category.strCategory < part2.category.strCategory
+//                            })
+//                            self?.tableView.reloadData()
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
 }
 
 
