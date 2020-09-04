@@ -21,6 +21,8 @@ class CoctailTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         drinkImageView.image = nil
+        drinkImageURL = nil
+        drinkImageViewActivityIndicator.startAndShow()
     }
 
     

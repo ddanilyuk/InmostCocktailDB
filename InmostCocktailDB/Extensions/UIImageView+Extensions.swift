@@ -12,20 +12,22 @@ extension UIImageView {
 
     func loadImage(withUrl urlString : String, addImageToCache: Bool, complition: @escaping () -> ()) {
         
-        let url = URL(string: urlString)!
-        DispatchQueue.global(qos: .userInitiated).async {
-            let contensOfUrl = try? Data(contentsOf: url)
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: contensOfUrl!) {
-                    if addImageToCache {
-                        imageCache.setObject(image, forKey: urlString as NSString)
+        if let url = URL(string: urlString) {
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let contensOfUrl = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        if let image = UIImage(data: contensOfUrl) {
+                            if addImageToCache {
+                                imageCache.setObject(image, forKey: urlString as NSString)
+                            }
+                            self.image = image
+                            complition()
+                        }
                     }
-                    self.image = image
-                    complition()
                 }
             }
         }
+        
     }
     
 }

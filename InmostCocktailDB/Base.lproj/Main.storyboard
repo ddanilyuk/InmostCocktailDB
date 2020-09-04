@@ -62,14 +62,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Drinks" id="INi-3j-tr7">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="zcV-29-7qD">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zan-SG-dov">
-                                <rect key="frame" x="369" y="10" width="25" height="24"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="zcV-29-7qD">
+                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zan-SG-dov">
+                                <rect key="frame" x="311" y="0.0" width="83" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <state key="normal">
                                     <color key="titleColor" systemColor="labelColor"/>
                                     <imageReference key="image" image="line.horizontal.3.decrease.circle" catalog="system" symbolScale="large" renderingMode="template"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                 </state>
                                 <connections>
                                     <action selector="didPressShowFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zTz-Oj-rvF"/>
