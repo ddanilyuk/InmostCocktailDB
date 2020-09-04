@@ -8,28 +8,17 @@
 import UIKit
 
 
-//protocol FilterTableViewCellDelegate {
-//    func userChangeFilterCell(with category: Category?, isCategorySelected: Bool)
-//}
-
-
 class FilterTableViewCell: UITableViewCell {
 
     @IBOutlet weak var filterNameLabel: UILabel!
-    @IBOutlet weak var filterCheckmarkButton: UIButton!
+    @IBOutlet weak var checkmarkImageView: UIImageView!
     
     var isCategorySelected: Bool = false {
         didSet {
-            if isCategorySelected {
-                filterCheckmarkButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-            } else {
-                filterCheckmarkButton.setImage(UIImage(), for: .normal)
-            }
+            checkmarkImageView.image = isCategorySelected ? UIImage(systemName: "checkmark") : UIImage()
         }
     }
-    
-//    var delegate: FilterTableViewCellDelegate?
-    
+        
     var category: Category? {
         didSet {
             filterNameLabel.text = category?.strCategory
@@ -45,12 +34,5 @@ class FilterTableViewCell: UITableViewCell {
 
     }
     
-    @IBAction func didPressFilterCheckmarkButton(_ sender: UIButton) {
-        
-//        isCategorySelected.toggle()
-        
-                
-//        delegate?.userChangeFilterCell(with: category, isCategorySelected: isCategorySelected)
-    }
     
 }

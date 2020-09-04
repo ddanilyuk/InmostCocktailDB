@@ -16,17 +16,25 @@ class MainViewController: UIViewController {
     
     var tableViewData: [(category: Category, drinks: [Drink])] = []
     
+    var tableViewDataSorted: [(category: Category, drinks: [Drink])] = []
+
+    
     let settings = SettingsSingleton()
+    
+    /// Searching
+    var isSearching = false
+    let search = UISearchController(searchResultsController: nil)
     
     var categories: [Category] = [] {
         didSet {
             tableViewData = []
             guard categories.count > 0 else {
+                
                 viewWithActivityIndicator.isHidden = false
                 mainActivityIndicator.stopAndHide()
-
                 loadingLabel.text = "You select no categories!\nPlease, select at least one!"
                 tableView.isHidden = true
+                
                 print("LOG: User select no categories!")
                 return
             }
@@ -54,21 +62,35 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupSearch()
         
+        /// Start loading
         mainActivityIndicator.startAndShow()
         viewWithActivityIndicator.isHidden = false
         tableView.isHidden = true
 
-        
         categories = settings.selectedCategories
         print("LOG: categories", categories.map( {$0.strCategory} ))
     }
 
+    
     private func setupTableView() {
         tableView.register(UINib(nibName: CoctailTableViewCell.identifier, bundle: Bundle.main), forCellReuseIdentifier: CoctailTableViewCell.identifier)
-        
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func setupSearch() {
+        /// Search bar settings
+        search.searchResultsUpdater = self
+        search.searchBar.placeholder = "Search drinks"
+
+//        search.obscuresBackgroundDuringPresentation = false
+        search.hidesNavigationBarDuringPresentation = true
+        
+        self.navigationItem.searchController = search
+//        self.navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = false
     }
     
     @IBAction func didPressShowFilter(_ sender: UIButton) {
@@ -77,8 +99,6 @@ class MainViewController: UIViewController {
         filterViewController.selectedCategories = categories
         navigationController?.pushViewController(filterViewController, animated: true)
     }
-    
-    
 }
 
 
@@ -151,45 +171,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let offset = scrollView.contentOffset
-//        let bounds = scrollView.bounds
-//        let size = scrollView.contentSize
-//        let inset = scrollView.contentInset
-//        let y = offset.y + bounds.size.height - inset.bottom
-//        let h = size.height
-//        let reload_distance:CGFloat = 10.0
-//        if y > (h + reload_distance) {
-//            print("updating")
-//            
-//            let isAlreadyDownLoaded = tableViewData.contains { (category, _) -> Bool in
-//                return categories.contains(category)
-//            }
-////            print("isAlreadyDownLoaded", isAlreadyDownLoaded)
-//            
-//            guard categories.count >= tableViewData.count else {
-//                return
-//            }
-//            
-//            let category = categories[tableViewData.count]
-//            if !isAlreadyDownLoaded {
-//                api.getDataFromServer(requestType: RequestType.drinks, drinkNames: category.strCategory) { [weak self] data in
-//                    let serverResponse = try? JSONDecoder().decode(ServerResponse<Drink>.self, from: data)
-//                    if let serverResponse = serverResponse {
-//                        DispatchQueue.main.async {
-//                            self?.tableViewData.append((category: Category(strCategory: category.strCategory), drinks: serverResponse.drinks))
-//                            self?.tableViewData.sort(by: { part1, part2 in
-//                                return part1.category.strCategory < part2.category.strCategory
-//                            })
-//                            self?.tableView.reloadData()
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
+    
 }
 
 
@@ -200,5 +182,18 @@ extension MainViewController: FilterViewControllerDelegate {
         self.categories = categories
         self.settings.selectedCategories = categories
     }
-    
+}
+
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        print(searchText)
+        let lowerCaseSearchText = searchText.lowercased()
+
+        if lowerCaseSearchText == "" {
+            isSearching = false
+            
+        }
+    }
 }

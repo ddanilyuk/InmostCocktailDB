@@ -27,6 +27,7 @@
 		5F0AB5CA25024F5E0086208E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5C925024F5E0086208E /* Category.swift */; };
 		5F0AB5CC2502665E0086208E /* SettingsSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */; };
 		5F0AB5CE250292850086208E /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5CD250292850086208E /* UIImageView+Extensions.swift */; };
+		5F0AB5D22502B6880086208E /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5D12502B6880086208E /* Drink.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		5F0AB5C925024F5E0086208E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSingleton.swift; sourceTree = "<group>"; };
 		5F0AB5CD250292850086208E /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		5F0AB5D12502B6880086208E /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,15 +87,14 @@
 			isa = PBXGroup;
 			children = (
 				5F0AB5AD250240510086208E /* App */,
-				5F0AB59C250240380086208E /* MainViewController.swift */,
-				5F0AB5C025024CFD0086208E /* FilterViewController.swift */,
 				5F0AB59E250240380086208E /* Main.storyboard */,
-				5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */,
+				5F0AB5CF2502B63F0086208E /* ViewControllers */,
 				5F0AB5B3250242430086208E /* Views */,
 				5F0AB5B0250241DF0086208E /* Models */,
 				5F0AB5AC2502404A0086208E /* Networking */,
-				5F0AB5A12502403A0086208E /* Assets.xcassets */,
+				5F0AB5D02502B6590086208E /* Helpers */,
 				5F0AB5B9250243790086208E /* Extensions */,
+				5F0AB5A12502403A0086208E /* Assets.xcassets */,
 				5F0AB5A32502403A0086208E /* LaunchScreen.storyboard */,
 				5F0AB5A62502403A0086208E /* Info.plist */,
 			);
@@ -122,6 +123,7 @@
 			children = (
 				5F0AB5B1250241F40086208E /* ServerResponse.swift */,
 				5F0AB5C925024F5E0086208E /* Category.swift */,
+				5F0AB5D12502B6880086208E /* Drink.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -163,6 +165,23 @@
 				5F0AB5C525024E2B0086208E /* FilterTableViewCell.xib */,
 			);
 			path = FilterTableVIewCell;
+			sourceTree = "<group>";
+		};
+		5F0AB5CF2502B63F0086208E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F0AB59C250240380086208E /* MainViewController.swift */,
+				5F0AB5C025024CFD0086208E /* FilterViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5F0AB5D02502B6590086208E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +270,7 @@
 				5F0AB5C625024E2B0086208E /* FilterTableViewCell.swift in Sources */,
 				5F0AB5C325024D740086208E /* UIButton+Extensions.swift in Sources */,
 				5F0AB5CC2502665E0086208E /* SettingsSingleton.swift in Sources */,
+				5F0AB5D22502B6880086208E /* Drink.swift in Sources */,
 				5F0AB5B62502426A0086208E /* CoctailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
