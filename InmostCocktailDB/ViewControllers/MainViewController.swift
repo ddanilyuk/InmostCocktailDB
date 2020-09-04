@@ -181,7 +181,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         /// When user tap in searching, application start to download all selected categorsies.
-        guard isSearching else { return }
+        guard !isSearching else { return }
         
         let isLastCellInSection = indexPath.row + 1 == tableViewData[indexPath.section].drinks.count
         print("LOG: Will display cell in \(indexPath). It is last cell? \(isLastCellInSection)!!!")
