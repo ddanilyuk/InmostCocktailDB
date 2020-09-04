@@ -8,6 +8,6 @@
 import Foundation
 
 
-struct Category: Codable {
+struct Category: Codable, Hashable {
     var strCategory: String
 }

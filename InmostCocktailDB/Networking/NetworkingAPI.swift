@@ -18,7 +18,7 @@ class NetworkingAPI {
         
     typealias DataComplition = (Data) -> ()
     
-    func getDataFromServer(requestType: RequestType, drinkNames: [String]?, complition: @escaping DataComplition) {
+    func getDataFromServer(requestType: RequestType, drinkNames: String?, complition: @escaping DataComplition) {
         
         var urlComponents = URLComponents()
         
@@ -34,7 +34,7 @@ class NetworkingAPI {
 
             
         case .drinks:
-            let queryItems = drinkNames?.compactMap { URLQueryItem(name: "c", value: $0) }
+            let queryItems = [URLQueryItem(name: "c", value: drinkNames)]
             guard let urlComponentsDrinks = URLComponents(string: "https://www.thecocktaildb.com/api/json/v1/1/filter.php") else {
                 fatalError("urlComponentsDrinks error")
             }

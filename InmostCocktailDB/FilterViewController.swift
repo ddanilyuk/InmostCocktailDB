@@ -7,27 +7,45 @@
 
 import UIKit
 
+
+protocol FilterViewControllerDelegate {
+    func filtersDidChanged(categories: [Category])
+}
+
+
 class FilterViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     var categories: [Category] = []
     
+    var selectedCategories: [Category] = []
+    
+    var delegate: FilterViewControllerDelegate?
+    
+    var settings = SettingsSingleton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        // Do any additional setup after loading the view.
+        self.tableView.reloadData()
         
-        api.getDataFromServer(requestType: .categories, drinkNames: nil)  { [weak self] data in
-            let serverResponse = try? JSONDecoder().decode(ServerResponse<Category>.self, from: data)
-            if let serverResponse = serverResponse {
-                DispatchQueue.main.async {
-                    self?.categories = serverResponse.drinks
-                    self?.tableView.reloadData()
+        if settings.allCategories.isEmpty {
+            api.getDataFromServer(requestType: .categories, drinkNames: nil)  { [weak self] data in
+                let serverResponse = try? JSONDecoder().decode(ServerResponse<Category>.self, from: data)
+                if let serverResponse = serverResponse {
+                    DispatchQueue.main.async {
+                        self?.categories = serverResponse.drinks
+                        self?.settings.allCategories = serverResponse.drinks
+                        self?.tableView.reloadData()
+                    }
                 }
             }
+        } else {
+            self.categories = settings.allCategories
         }
+
+        
     }
     
     private func setupTableView() {
@@ -35,10 +53,11 @@ class FilterViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     }
 
     @IBAction func didPressApply(_ sender: UIButton) {
+        delegate?.filtersDidChanged(categories: selectedCategories)
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
@@ -54,12 +73,31 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         
         let category = categories[indexPath.row]
         
-        
+        cell.category = category
+
+        cell.isCategorySelected = selectedCategories.contains(where: { $0.strCategory == category.strCategory })
+
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? FilterTableViewCell else { return }
+        
+        let isInSelectedCategories = selectedCategories.contains(where: { $0.strCategory == cell.category?.strCategory })
+        
+        if isInSelectedCategories {
+            selectedCategories.removeAll(where: {$0.strCategory == cell.category?.strCategory})
+        } else {
+            selectedCategories.append(cell.category ?? Category(strCategory: ""))
+        }
+        
+        cell.isCategorySelected = !isInSelectedCategories
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 }
-
 

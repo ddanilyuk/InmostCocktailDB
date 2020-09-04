@@ -11,10 +11,16 @@ let api = NetworkingAPI()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    
+    let settings = SettingsSingleton()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if !settings.isFirstLaunch {
+            settings.selectedCategories = [Category(strCategory: "Ordinary Drink")]
+            settings.isFirstLaunch = true
+        }
         return true
     }
 

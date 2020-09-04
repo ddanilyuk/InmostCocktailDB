@@ -32,6 +32,9 @@
                         </constraints>
                         <color key="tintColor" systemColor="labelColor"/>
                         <state key="normal" image="checkmark" catalog="system"/>
+                        <connections>
+                            <action selector="didPressFilterCheckmarkButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="631-au-2V3"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -43,6 +46,10 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="filterCheckmarkButton" destination="0zR-vL-pqW" id="OLA-ep-buj"/>
+                <outlet property="filterNameLabel" destination="E1W-cu-fpV" id="cR4-xB-U61"/>
+            </connections>
             <point key="canvasLocation" x="26.811594202898554" y="107.8125"/>
         </tableViewCell>
     </objects>
