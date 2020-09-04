@@ -26,7 +26,6 @@
 		5F0AB5C725024E2B0086208E /* FilterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F0AB5C525024E2B0086208E /* FilterTableViewCell.xib */; };
 		5F0AB5CA25024F5E0086208E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5C925024F5E0086208E /* Category.swift */; };
 		5F0AB5CC2502665E0086208E /* SettingsSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */; };
-		5F0AB5CE250292850086208E /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5CD250292850086208E /* UIImageView+Extensions.swift */; };
 		5F0AB5D22502B6880086208E /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0AB5D12502B6880086208E /* Drink.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +51,6 @@
 		5F0AB5C525024E2B0086208E /* FilterTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterTableViewCell.xib; sourceTree = "<group>"; };
 		5F0AB5C925024F5E0086208E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		5F0AB5CB2502665E0086208E /* SettingsSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSingleton.swift; sourceTree = "<group>"; };
-		5F0AB5CD250292850086208E /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		5F0AB5D12502B6880086208E /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,8 +129,8 @@
 		5F0AB5B3250242430086208E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5F0AB5C825024E2E0086208E /* FilterTableVIewCell */,
 				5F0AB5B82502426D0086208E /* CoctailTableViewCell */,
+				5F0AB5C825024E2E0086208E /* FilterTableVIewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -150,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				5F0AB5BA250243790086208E /* UIViewController+Extensions.swift */,
-				5F0AB5CD250292850086208E /* UIImageView+Extensions.swift */,
 				5F0AB5BB250243790086208E /* UIView+Extensions.swift */,
 				5F0AB5C225024D740086208E /* UIButton+Extensions.swift */,
 				5F0AB5BE250245550086208E /* UIActivityIndicatorView+Extensions.swift */,
@@ -256,7 +253,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F0AB5CE250292850086208E /* UIImageView+Extensions.swift in Sources */,
 				5F0AB5AF2502407A0086208E /* NetworkingAPI.swift in Sources */,
 				5F0AB59D250240380086208E /* MainViewController.swift in Sources */,
 				5F0AB599250240380086208E /* AppDelegate.swift in Sources */,

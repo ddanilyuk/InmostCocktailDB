@@ -14,7 +14,6 @@ public class SettingsSingleton {
     
     static let shared = SettingsSingleton()
     
-    
     var isFirstLaunch: Bool {
         get {
             return userDefaults.bool(forKey: "isFirstLaunch")
@@ -23,7 +22,6 @@ public class SettingsSingleton {
             userDefaults.set(newValue, forKey: "isFirstLaunch")
         }
     }
-    
     
     var selectedCategories: [Category] {
         get {
@@ -37,7 +35,6 @@ public class SettingsSingleton {
         }
     }
     
-    
     var allCategories: [Category] {
         get {
             let selectedCategoriesData = userDefaults.data(forKey: "allCategories") ?? Data()
@@ -49,6 +46,4 @@ public class SettingsSingleton {
             userDefaults.set(selectedCategoriesData, forKey: "allCategories")
         }
     }
-
-
 }

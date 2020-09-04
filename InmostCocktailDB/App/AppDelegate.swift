@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 let api = NetworkingAPI()
 let imageCache = NSCache<NSString, UIImage>()
 
@@ -14,15 +15,10 @@ let imageCache = NSCache<NSString, UIImage>()
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    
     let settings = SettingsSingleton()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        if !settings.isFirstLaunch {
-            settings.selectedCategories = [Category(strCategory: "Ordinary Drink")]
-            settings.isFirstLaunch = true
-        }
         return true
     }
 

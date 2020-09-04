@@ -23,4 +23,5 @@ extension UIActivityIndicatorView {
             self.isHidden = false
         }
     }
+    
 }

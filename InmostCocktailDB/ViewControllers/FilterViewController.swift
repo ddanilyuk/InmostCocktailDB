@@ -8,6 +8,7 @@
 import UIKit
 
 
+/// Delegate which return back after pop selected categories.
 protocol FilterViewControllerDelegate {
     func filtersDidChanged(categories: [Category])
 }
@@ -28,24 +29,7 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        self.tableView.reloadData()
-        
-        if settings.allCategories.isEmpty {
-            api.getDataFromServer(requestType: .categories, drinkNames: nil)  { [weak self] data in
-                let serverResponse = try? JSONDecoder().decode(ServerResponse<Category>.self, from: data)
-                if let serverResponse = serverResponse {
-                    DispatchQueue.main.async {
-                        self?.categories = serverResponse.drinks
-                        self?.settings.allCategories = serverResponse.drinks
-                        self?.tableView.reloadData()
-                    }
-                }
-            }
-        } else {
-            self.categories = settings.allCategories
-        }
-
-        
+        self.categories = settings.allCategories
     }
     
     private func setupTableView() {
@@ -56,7 +40,18 @@ class FilterViewController: UIViewController {
     }
 
     @IBAction func didPressApply(_ sender: UIButton) {
+        
+        if selectedCategories.isEmpty {
+            /// If user dont select any filter, present warning.
+            let alert = UIAlertController(title: nil, message: "Plese, select at least one filter!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         delegate?.filtersDidChanged(categories: selectedCategories)
+
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -64,6 +59,11 @@ class FilterViewController: UIViewController {
 
 
 extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
     }
@@ -72,18 +72,13 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FilterTableViewCell.identifier, for: indexPath) as? FilterTableViewCell else { return UITableViewCell() }
         
         let category = categories[indexPath.row]
-        
         cell.category = category
-
         cell.isCategorySelected = selectedCategories.contains(where: { $0.strCategory == category.strCategory })
 
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         guard let cell = tableView.cellForRow(at: indexPath) as? FilterTableViewCell else { return }
         
         let isInSelectedCategories = selectedCategories.contains(where: { $0.strCategory == cell.category?.strCategory })
@@ -95,9 +90,7 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.isCategorySelected = !isInSelectedCategories
-
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
-

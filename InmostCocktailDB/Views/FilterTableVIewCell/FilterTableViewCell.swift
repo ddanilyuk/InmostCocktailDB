@@ -15,6 +15,7 @@ class FilterTableViewCell: UITableViewCell {
     
     var isCategorySelected: Bool = false {
         didSet {
+            /// Using SF Symols
             checkmarkImageView.image = isCategorySelected ? UIImage(systemName: "checkmark") : UIImage()
         }
     }
@@ -31,7 +32,6 @@ class FilterTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
     
     

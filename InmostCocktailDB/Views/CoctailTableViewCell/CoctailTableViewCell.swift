@@ -25,26 +25,45 @@ class CoctailTableViewCell: UITableViewCell {
         drinkImageViewActivityIndicator.startAndShow()
     }
 
-    
     func updateImage() {
         self.drinkImageViewActivityIndicator.startAnimating()
         
-        if let cachedImage = imageCache.object(forKey: "\(drinkImageURL?.absoluteString ?? "")" as NSString)  {
-            drinkImageView.image = cachedImage
-            self.drinkImageViewActivityIndicator.stopAndHide()
-        } else {
-            drinkImageView.loadImage(withUrl: "\(drinkImageURL?.absoluteString ?? "")", addImageToCache: true) {
+        if let drinkImageURL = drinkImageURL {
+            /// If image already cached, use if!
+            if let cachedImage = imageCache.object(forKey: "\(drinkImageURL.absoluteString)" as NSString)  {
+                drinkImageView.image = cachedImage
                 self.drinkImageViewActivityIndicator.stopAndHide()
+            } else {
+                /// If not, download in and cache
+                downloadAndCacheImage()
             }
         }
     }
     
+    func downloadAndCacheImage() {
+        if let url = drinkImageURL {
+            drinkImageViewActivityIndicator.startAndShow()
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let contensOfUrl = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async { [weak self] in
+                        /// Checking if this cell need this image.
+                        if url == self?.drinkImageURL {
+                            if let image = UIImage(data: contensOfUrl) {
+                                imageCache.setObject(image, forKey: url.absoluteString as NSString)
+                                self?.drinkImageView.image = image
+                            }
+                            self?.drinkImageViewActivityIndicator.stopAndHide()
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     override func layoutSubviews() {
         drinkImageView.layer.cornerRadius = 8
         drinkImageView.layer.masksToBounds = true
     }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,5 +74,4 @@ class CoctailTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
     }
-    
 }

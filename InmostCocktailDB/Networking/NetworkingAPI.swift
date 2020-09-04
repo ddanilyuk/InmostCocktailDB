@@ -8,6 +8,7 @@
 import Foundation
 
 
+
 enum RequestType {
     case drinks
     case categories
@@ -18,7 +19,7 @@ class NetworkingAPI {
         
     typealias DataComplition = (Data) -> ()
     
-    func getDataFromServer(requestType: RequestType, drinkNames: String?, complition: @escaping DataComplition) {
+    func getDataFromServer(requestType: RequestType, drinkName: String?, complition: @escaping DataComplition) {
         
         var urlComponents = URLComponents()
         
@@ -32,9 +33,8 @@ class NetworkingAPI {
             urlComponents = urlComponentsCategories
             urlComponents.queryItems = queryItems
 
-            
         case .drinks:
-            let queryItems = [URLQueryItem(name: "c", value: drinkNames)]
+            let queryItems = [URLQueryItem(name: "c", value: drinkName)]
             guard let urlComponentsDrinks = URLComponents(string: "https://www.thecocktaildb.com/api/json/v1/1/filter.php") else {
                 fatalError("urlComponentsDrinks error")
             }
@@ -42,9 +42,7 @@ class NetworkingAPI {
             urlComponents.queryItems = queryItems
         }
         
-        
         guard let url = urlComponents.url else { return }
-        
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
