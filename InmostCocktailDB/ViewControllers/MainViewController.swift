@@ -58,6 +58,8 @@ class MainViewController: UIViewController {
         /// Start loading
         startLoading(with: "Loading drinks...")
         
+        setupFirstLaunch()
+        
         categories = settings.selectedCategories
 
         print("LOG: categories - ", categories.map( {$0.strCategory} ))
@@ -186,11 +188,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let isLastCellInSection = indexPath.row + 1 == tableViewData[indexPath.section].drinks.count
         print("LOG: Will display cell in \(indexPath). It is last cell? \(isLastCellInSection)!!!")
 
-        if indexPath.section + 1 < categories.count, tableViewData.count != 0, isLastCellInSection  {
+        if indexPath.section + 1 < categories.count  {
             
             let isAlreadyDownLoaded = tableViewData.contains { $0.category == categories[indexPath.section + 1] }
             
-            if !isAlreadyDownLoaded {
+            if !isAlreadyDownLoaded, tableViewData.count != 0, isLastCellInSection {
                 let category = categories[indexPath.section + 1]
                 
                 print("LOG: Downloading new section with category \(category.strCategory)!!!")
