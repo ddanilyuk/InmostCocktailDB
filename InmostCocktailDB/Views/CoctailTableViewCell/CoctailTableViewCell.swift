@@ -11,7 +11,7 @@ class CoctailTableViewCell: UITableViewCell {
     
     @IBOutlet weak var drinkImageView: UIImageView!
     @IBOutlet weak var drinkImageViewActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var drinkName: UILabel!
+    @IBOutlet weak var drinkNameLabel: UILabel!
     
     var drinkImageURL: URL? {
         didSet {
@@ -30,11 +30,13 @@ class CoctailTableViewCell: UITableViewCell {
         
         if let drinkImageURL = drinkImageURL {
             /// If image already cached, use if!
-            if let cachedImage = imageCache.object(forKey: "\(drinkImageURL.absoluteString)" as NSString)  {
+            if let cachedImage = imageCache.object(forKey: drinkImageURL.absoluteString as NSString)  {
                 drinkImageView.image = cachedImage
+                // print(self.drinkNameLabel.text, "using image from cache")
                 self.drinkImageViewActivityIndicator.stopAndHide()
             } else {
                 /// If not, download in and cache
+                // print(self.drinkNameLabel.text, "downloading image")
                 downloadAndCacheImage()
             }
         }

@@ -172,7 +172,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let drink = isSearching ? tableViewDataFiltered[indexPath.section].drinks[indexPath.row] : tableViewData[indexPath.section].drinks[indexPath.row]
         
-        cell.drinkName.text = drink.strDrink
+        cell.drinkNameLabel.text = drink.strDrink
         if let imageURL = drink.strDrinkThumb {
             cell.drinkImageURL = URL(string: imageURL)
         }

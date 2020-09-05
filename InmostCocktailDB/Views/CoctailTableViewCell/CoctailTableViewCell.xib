@@ -50,7 +50,7 @@
             <connections>
                 <outlet property="drinkImageView" destination="tsC-jE-TS9" id="meU-23-BoU"/>
                 <outlet property="drinkImageViewActivityIndicator" destination="DbA-cH-MfE" id="SKB-qB-9iD"/>
-                <outlet property="drinkName" destination="eWo-lj-pVe" id="hdf-jb-Hzk"/>
+                <outlet property="drinkNameLabel" destination="eWo-lj-pVe" id="hdf-jb-Hzk"/>
             </connections>
             <point key="canvasLocation" x="26.811594202898554" y="155.35714285714286"/>
         </tableViewCell>
